@@ -28,20 +28,25 @@ export const floorCapacityMap = [
       {
         slotId: 'PST-001',
         count: 3,
+        remaining: 3,
         used: 0,
       },
       {
         slotId: 'PST-002',
         count: 3,
+        remaining: 3,
         used: 0,
-      },{
+      },
+      {
         slotId: 'PST-003',
         count: 5,
+        remaining: 5,
         used: 0,
       },
       {
         slotId: 'PST-004',
         count: 2,
+        remaining: 2,
         used: 0,
       },
     ],
@@ -53,20 +58,24 @@ export const floorCapacityMap = [
       {
         slotId: 'PST-001',
         count: 3,
+        remaining: 3,
         used: 0,
       },
       {
         slotId: 'PST-002',
         count: 3,
+        remaining: 3,
         used: 0,
       },{
         slotId: 'PST-003',
         count: 5,
+        remaining: 5,
         used: 0,
       },
       {
         slotId: 'PST-004',
         count: 2,
+        remaining: 2,
         used: 0,
       },
     ],
@@ -78,20 +87,24 @@ export const floorCapacityMap = [
       {
         slotId: 'PST-001',
         count: 3,
+        remaining: 3,
         used: 0,
       },
       {
         slotId: 'PST-002',
         count: 3,
+        remaining: 3,
         used: 0,
       },{
         slotId: 'PST-003',
         count: 5,
+        remaining: 5,
         used: 0,
       },
       {
         slotId: 'PST-004',
         count: 2,
+        remaining: 2,
         used: 0,
       },
     ],
@@ -103,15 +116,18 @@ export const floorCapacityMap = [
       {
         slotId: 'PST-001',
         count: 5,
+        remaining: 5,
         used: 0,
       },
       {
         slotId: 'PST-002',
         count: 5,
+        remaining: 5,
         used: 0,
       },{
         slotId: 'PST-003',
         count: 5,
+        remaining: 5,
         used: 0,
       },
     ],
