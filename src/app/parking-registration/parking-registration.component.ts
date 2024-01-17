@@ -29,6 +29,7 @@ export class ParkingRegistrationComponent implements OnInit {
     private parkingRegistrationService: ParkingRegistrationService
   ) {
     this.parkingDetails = this.parkingRegistrationService.getRegistrations();
+    this.calculateRemainingParkingCapacity();
     this.registrationForm = this.FormBuilder.group({
       checkInDate: ['', Validators.required],
       parkingSlotType: ['', Validators.required],
@@ -49,10 +50,27 @@ export class ParkingRegistrationComponent implements OnInit {
 
   onParkingSlotSelected() {
     this.availableFloors = this.floors.filter(
-      (floor) =>
-        floor.parkingSlots.filter(
+      (floor) => {
+        const parkingSlotOnFloor = floor.parkingSlots.find(
           (slot) => slot.slotId === this.registrationForm.value.parkingSlotType
-        ).length > 0
+        );
+        return parkingSlotOnFloor && parkingSlotOnFloor.remaining > 0
+      }
     );
+  }
+
+  calculateRemainingParkingCapacity() {
+    this.floors.forEach((floor) => {
+      const floorVehicles = this.parkingDetails.filter(
+        (node) => node.floor === floor.id
+      );
+      floor.parkingSlots.forEach((slot) => {
+        const slotVehiclesCount = floorVehicles.filter(
+          (node) => node.parkingSlotType === slot.slotId
+        ).length;
+        slot.used = slotVehiclesCount;
+        slot.remaining = slot.count - slot.used;
+      });
+    });
   }
 }
