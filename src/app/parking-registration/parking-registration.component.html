@@ -12,7 +12,7 @@
       >Vehicle type:</label
     >
     <div class="col-md-8 col-lg-10">
-      <select formControlName="parkingSlotType" class="form-select">
+      <select formControlName="parkingSlotType" class="form-select" (change)="onParkingSlotSelected()">
         <option *ngFor="let type of parkingSlotTypes" [ngValue]="type.id">
           {{ type.name }}
         </option>
@@ -25,7 +25,7 @@
     >
     <div class="col-md-8 col-lg-10">
       <select formControlName="floor" class="form-select">
-        <option *ngFor="let floor of floors" [ngValue]="floor.id">
+        <option *ngFor="let floor of availableFloors" [ngValue]="floor.id">
           {{ floor.name }}
         </option>
       </select>
@@ -40,6 +40,7 @@
         type="datetime-local"
         class="form-control"
         formControlName="checkInDate"
+        [max]="today"
       />
     </div>
   </div>

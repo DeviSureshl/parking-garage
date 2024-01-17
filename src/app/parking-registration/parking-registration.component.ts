@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { floorCapacityMap, parkingSlotType } from '../services/data';
 import { ParkingRegistrationService } from '../services/parking-registration/parking-registration.service';
-import { IRegistration } from '../services/interface';
+import { IFloorCapacity, IRegistration } from '../services/interface';
 
 @Component({
   selector: 'app-parking-registration',
@@ -15,15 +15,19 @@ import { IRegistration } from '../services/interface';
   styleUrls: ['./parking-registration.component.scss'],
 })
 export class ParkingRegistrationComponent implements OnInit {
-  parkingDetails:IRegistration[] = [];
+  parkingDetails: IRegistration[] = [];
   registrationForm: FormGroup;
-  ngOnInit(): void {
-    
-  }
+  today = new Date().toISOString().substring(0, 16);
+
+  ngOnInit(): void {}
   parkingSlotTypes = parkingSlotType;
-  floors = floorCapacityMap;
-  
-  constructor(private FormBuilder: FormBuilder, private parkingRegistrationService: ParkingRegistrationService) {
+  floors: IFloorCapacity[] = floorCapacityMap;
+  availableFloors: IFloorCapacity[] = [];
+
+  constructor(
+    private FormBuilder: FormBuilder,
+    private parkingRegistrationService: ParkingRegistrationService
+  ) {
     this.parkingDetails = this.parkingRegistrationService.getRegistrations();
     this.registrationForm = this.FormBuilder.group({
       checkInDate: ['', Validators.required],
@@ -33,13 +37,22 @@ export class ParkingRegistrationComponent implements OnInit {
     });
   }
 
-  
   OnSubmit() {
     if (this.registrationForm.valid) {
       this.parkingDetails.push(this.registrationForm.value);
       console.log(JSON.stringify(this.parkingDetails));
-      this.parkingRegistrationService.setRegistrations(this.parkingDetails)
+      this.parkingRegistrationService.setRegistrations(this.parkingDetails);
       this.registrationForm.reset();
+      alert('New parking has been created');
     }
+  }
+
+  onParkingSlotSelected() {
+    this.availableFloors = this.floors.filter(
+      (floor) =>
+        floor.parkingSlots.filter(
+          (slot) => slot.slotId === this.registrationForm.value.parkingSlotType
+        ).length > 0
+    );
   }
 }

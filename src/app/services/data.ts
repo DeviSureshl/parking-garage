@@ -1,3 +1,5 @@
+import { IFloorCapacity } from "./interface";
+
 export const parkingSlotType = [
   {
     id: 'PST-001',
@@ -20,7 +22,7 @@ export const parkingSlotType = [
   },
 ];
 
-export const floorCapacityMap = [
+export const floorCapacityMap: IFloorCapacity[] = [
   {
     id: 'FLR-001',
     name: 'floor 1',

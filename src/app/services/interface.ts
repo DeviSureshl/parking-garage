@@ -1,6 +1,17 @@
 export interface IRegistration {
-    checkInDate: string,
-    parkingSlotType: string,
-    vehicleNumber: string,
-    floor: string
+  checkInDate: string;
+  parkingSlotType: string;
+  vehicleNumber: string;
+  floor: string;
+}
+
+export interface IFloorCapacity {
+  id: string;
+  name: string;
+  parkingSlots: {
+    slotId: string;
+    count: number;
+    remaining: number;
+    used: number;
+  }[];
 }
