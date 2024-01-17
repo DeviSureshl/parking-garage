@@ -12,6 +12,7 @@ export class DisplayBoardsComponent implements OnInit {
   floors = floorCapacityMap;
   selectedFloor = '';
   displayFloors: any[] = [];
+  totalRemainingSlots = 0;
 
   ngOnInit(): void {
     this.calculateRemainingParkingCapacity();
@@ -39,6 +40,8 @@ export class DisplayBoardsComponent implements OnInit {
           (node) => node.parkingSlotType === slot.slotId
         ).length;
         slot.used = slotVehiclesCount;
+        slot.remaining = slot.count - slot.used;
+        this.totalRemainingSlots += slot.remaining;
       });
     });
     this.onFloorSelect();

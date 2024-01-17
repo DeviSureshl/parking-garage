@@ -17,6 +17,18 @@
 </div>
 
 <div>
+  <h3>Display Board</h3>
+  <div class="card mb-5" *ngIf="totalRemainingSlots === 0">
+    <div class="card-body">
+      <div class="card-header">Parking Full</div>
+      <div class="card-body">
+        <p class="card-text">
+          Sorry, Currently no parking slots are available!!.
+        </p>
+      </div>
+    </div>
+  </div>
+
   <h2 class="mb-3">Parking slot details</h2>
   <div *ngFor="let floor of displayFloors" class="mb-5 card">
     <div class="card-body">
