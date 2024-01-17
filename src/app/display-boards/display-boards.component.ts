@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { floorCapacityMap } from '../services/data';
+import { IRegistration } from '../services/interface';
+import { ParkingRegistrationService } from '../services/parking-registration/parking-registration.service';
 
 @Component({
   selector: 'app-display-boards',
@@ -15,68 +17,11 @@ export class DisplayBoardsComponent implements OnInit {
     this.calculateRemainingParkingCapacity();
   }
 
-  customerSelection = [
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-001',
-      vehicleNumber: 'abc123',
-      floor: 'FLR-001',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-001',
-      vehicleNumber: 'abc123',
-      floor: 'FLR-001',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-002',
-      vehicleNumber: 'abc123',
-      floor: 'FLR-001',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-003',
-      vehicleNumber: 'abc123',
-      floor: 'FLR-001',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-002',
-      vehicleNumber: 'def12234',
-      floor: 'FLR-002',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-002',
-      vehicleNumber: 'mnnjj233',
-      floor: 'FLR-002',
-    },
-    {
-      checkInDate: '2024-01-16T12:58',
-      parkingSlotType: 'PST-003',
-      vehicleNumber: 'ahdjj123',
-      floor: 'FLR-004',
-    },
-    {
-      checkInDate: '2024-01-24T12:58',
-      parkingSlotType: 'PST-004',
-      vehicleNumber: 'kwjnsn233',
-      floor: 'FLR-003',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-001',
-      vehicleNumber: 'kwjnsn233bhguij',
-      floor: 'FLR-004',
-    },
-    {
-      checkInDate: '2024-01-17T12:58',
-      parkingSlotType: 'PST-002',
-      vehicleNumber: 'hjhkjq234',
-      floor: 'FLR-003',
-    },
-  ];
+  customerSelection: IRegistration[] = [];
+
+  constructor(private parkingRegistrationService: ParkingRegistrationService) {
+    this.customerSelection = this.parkingRegistrationService.getRegistrations();
+  }
 
   onFloorSelect() {
     this.displayFloors = this.selectedFloor

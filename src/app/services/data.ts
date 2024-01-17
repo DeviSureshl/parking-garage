@@ -19,6 +19,7 @@ export const parkingSlotType = [
     name: 'Handicapped',
   },
 ];
+
 export const floorCapacityMap = [
   {
     id: 'FLR-001',
