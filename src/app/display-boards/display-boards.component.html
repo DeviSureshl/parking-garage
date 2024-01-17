@@ -1,0 +1,44 @@
+<div class="mb-5 row">
+  <label class="col-md-4 col-lg-2 col-form-label">
+    <strong> Select Floor: </strong>
+  </label>
+  <div class="col-md-8 col-lg-10">
+    <select
+      class="form-select"
+      [(ngModel)]="selectedFloor"
+      (change)="onFloorSelect()"
+    >
+      <option value="">Show All</option>
+      <option *ngFor="let floor of floors" [ngValue]="floor.id">
+        {{ floor.name }}
+      </option>
+    </select>
+  </div>
+</div>
+
+<div>
+  <h2 class="mb-3">Parking slot details</h2>
+  <div *ngFor="let floor of displayFloors" class="mb-5 card">
+    <div class="card-body">
+      <h4>Floor : {{ floor.name }}</h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="text-center">Total Available</th>
+            <th class="text-center">Used</th>
+            <th class="text-center">Remaining</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let slot of floor.parkingSlots">
+            <td>{{ slot.slotId }}</td>
+            <td class="text-center">{{ slot.count }}</td>
+            <td class="text-center">{{ slot.used }}</td>
+            <td class="text-center">{{ slot.count - slot.used }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
