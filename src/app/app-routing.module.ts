@@ -5,6 +5,7 @@ import { DisplayBoardsComponent } from './display-boards/display-boards.componen
 import { ParkingCheckoutComponent } from './parking-checkout/parking-checkout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { EarningsComponent } from './earnings/earnings.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'checkout',
     component: ParkingCheckoutComponent,
+  },
+  {
+    path: 'earnings',
+    component: EarningsComponent,
   },
   {
     path: '**',
@@ -37,6 +42,7 @@ const routes: Routes = [
     ParkingRegistrationComponent,
     DisplayBoardsComponent,
     ParkingCheckoutComponent,
+    EarningsComponent,
   ],
 })
 export class AppRoutingModule {}

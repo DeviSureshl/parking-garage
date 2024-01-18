@@ -3,6 +3,7 @@
   [formGroup]="registrationNumberForm"
   (submit)="findVehicle()"
 >
+  <h3 class="mb-3">Checkout Parking</h3>
   <label for="vehicleNumber" class="col-sm-4 col-form-label"
     >Vehicle Registration Number</label
   >
@@ -34,7 +35,7 @@
       >You checked in on</label
     >
     <div class="col-sm-5">
-      <p>{{ userVehicleDetails.checkInDate | date : "dd-MM-yyyy HH:MM" }}</p>
+      <p>{{ userVehicleDetails.checkInDate | date : "dd-MM-yyyy HH:mm" }}</p>
     </div>
     <div class="col-sm-3"></div>
   </div>
@@ -51,7 +52,11 @@
       />
     </div>
     <div class="col-sm-3">
-      <button type="submit" class="btn btn-primary mb-3">
+      <button
+        type="submit"
+        class="btn btn-primary mb-3"
+        [disabled]="checkoutDateForm.invalid"
+      >
         Calculate Price
       </button>
     </div>
@@ -66,11 +71,17 @@
         </tr>
         <tr>
           <td>Checkin Date</td>
-          <td>{{ userVehicleDetails.checkInDate }}</td>
+          <td>
+            {{ userVehicleDetails.checkInDate | date : "dd-MM-yyyy HH:mm" }}
+          </td>
         </tr>
         <tr>
           <td>Checkout Date</td>
-          <td>{{ checkoutDateForm.value.checkoutDate }}</td>
+          <td>
+            {{
+              checkoutDateForm.value.checkoutDate | date : "dd-MM-yyyy HH:mm"
+            }}
+          </td>
         </tr>
         <tr>
           <td>Total hours</td>
@@ -78,12 +89,14 @@
         </tr>
         <tr>
           <td>Total Price</td>
-          <td>{{ userBillAmount }} Noks</td>
+          <td>{{ userBillAmount | currency : "NOK" }}</td>
         </tr>
         <tr>
           <td>Checkout</td>
           <td>
-            <button class="btn btn-primary" (click)="checkoutUser()">Checkout</button>
+            <button class="btn btn-primary" (click)="checkoutUser()">
+              Checkout
+            </button>
           </td>
         </tr>
       </tbody>

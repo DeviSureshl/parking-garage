@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParkingRegistrationService } from '../services/parking-registration/parking-registration.service';
 import { IRegistration } from '../services/interface';
+import { TransactionsService } from '../services/transactions/transactions.service';
 
 @Component({
   selector: 'app-parking-checkout',
@@ -22,7 +23,8 @@ export class ParkingCheckoutComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private parkingRegistrationService: ParkingRegistrationService
+    private parkingRegistrationService: ParkingRegistrationService,
+    private transactionsService: TransactionsService,
   ) {
     this.registrationNumberForm = this.formBuilder.group({
       vehicleNumber: ['', Validators.required],
@@ -92,6 +94,13 @@ export class ParkingCheckoutComponent {
           (node) => node.vehicleNumber != this.userVehicleDetails?.vehicleNumber
         )
       );
+      if (this.userVehicleDetails) {
+      this.transactionsService.addTransaction({
+        registration: this.userVehicleDetails,
+        paymentDate: this.checkoutDateForm.value.checkoutDate,
+        amount: this.userBillAmount,
+      })
+    }
       alert('You have successfully checked out');
       this.registrationNumberForm.reset();
       this.checkoutDateForm.reset();

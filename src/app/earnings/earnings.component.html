@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-12">
+    <h3 class="mb-3">Earnings and Transactions</h3>
+
+    <form [formGroup]="transactionForm" (submit)="loadTransactions()">
+      <div class="row g-3">
+        <label for="transactionDate" class="col-sm-4 col-form-label"
+          >Transaction Date</label
+        >
+        <div class="col-sm-5">
+          <input
+            type="date"
+            class="form-control"
+            formControlName="transactionDate"
+          />
+        </div>
+        <div class="col-sm-3">
+          <button
+            type="submit"
+            class="btn btn-primary mb-3"
+            [disabled]="transactionForm.invalid"
+          >
+            Load Transactions
+          </button>
+        </div>
+      </div>
+    </form>
+    <table class="table" *ngIf="transactions.length > 0">
+      <thead>
+        <tr>
+          <th>Vehicle Registration Number</th>
+          <th>Check in Date</th>
+          <th>Check out Date</th>
+          <th>Payment Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <td>
+            {{ transaction.registration.vehicleNumber }}
+          </td>
+          <td>
+            {{ transaction.registration.checkInDate | date : "dd-MM-YYYY" }}
+          </td>
+          <td>
+            {{ transaction.paymentDate | date : "dd-MM-YYYY" }}
+          </td>
+          <td>
+            {{ transaction.amount | currency : "NOK" }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>
+            <strong> Total Earnings </strong>
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <strong> {{ totalAmount | currency : "NOK" }}</strong>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    <div *ngIf="transactions.length === 0">
+      <div class="alert alert-dark" role="alert">
+        No transaction found on the selected date
+      </div>
+    </div>
+  </div>
+</div>

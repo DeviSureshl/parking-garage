@@ -15,3 +15,9 @@ export interface IFloorCapacity {
     used: number;
   }[];
 }
+
+export interface ITransaction {
+  registration: IRegistration,
+  paymentDate: string,
+  amount: number
+}
