@@ -20,7 +20,7 @@ export class DisplayBoardsComponent implements OnInit {
     this.onFloorSelect();
   }
 
-  constructor(private parkingCapacityService: ParkingCapacityService) {}
+  constructor(public parkingCapacityService: ParkingCapacityService) {}
 
   onFloorSelect() {
     this.displayFloors = this.selectedFloor

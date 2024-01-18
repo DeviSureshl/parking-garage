@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IFloorCapacity, IRegistration } from '../interface';
 import { ParkingRegistrationService } from '../parking-registration/parking-registration.service';
-import { floorCapacityMap } from '../data';
+import { floorCapacityMap, parkingSlotType } from '../data';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +46,10 @@ export class ParkingCapacityService {
       });
     });
     return remainingCount;
+  }
+
+  getParkingSlotName(slotId: string) {
+    const parkingSlot = parkingSlotType.find(slot => slot.id === slotId);
+    return parkingSlot ? parkingSlot.name : slotId;
   }
 }

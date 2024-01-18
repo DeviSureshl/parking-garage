@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let slot of floor.parkingSlots">
-            <td>{{ slot.slotId }}</td>
+            <td>{{ parkingCapacityService.getParkingSlotName(slot.slotId) }}</td>
             <td class="text-center">{{ slot.count }}</td>
             <td class="text-center">{{ slot.used }}</td>
             <td class="text-center">{{ slot.count - slot.used }}</td>
