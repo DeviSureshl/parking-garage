@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { floorCapacityMap, parkingSlotType } from '../services/data';
 import { ParkingRegistrationService } from '../services/parking-registration/parking-registration.service';
 import { IFloorCapacity, IRegistration } from '../services/interface';
+import { ParkingCapacityService } from '../services/parking-capacity/parking-capacity.service';
 
 @Component({
   selector: 'app-parking-registration',
@@ -21,21 +17,30 @@ export class ParkingRegistrationComponent implements OnInit {
 
   ngOnInit(): void {}
   parkingSlotTypes = parkingSlotType;
-  floors: IFloorCapacity[] = floorCapacityMap;
+  floors: IFloorCapacity[] = [];
   availableFloors: IFloorCapacity[] = [];
+  totalRemainingSlots = 0;
 
   constructor(
     private formBuilder: FormBuilder,
-    private parkingRegistrationService: ParkingRegistrationService
+    private parkingRegistrationService: ParkingRegistrationService,
+    private parkingCapacityService: ParkingCapacityService
   ) {
     this.parkingDetails = this.parkingRegistrationService.getRegistrations();
-    this.calculateRemainingParkingCapacity();
+    this.parkingCapacityService.updateRemainingParkingCapacity();
+    this.floors = this.parkingCapacityService.getFloorParkingCapacity();
+    this.totalRemainingSlots =
+      this.parkingCapacityService.getRemainingParkingSlotsAvailable();
     this.registrationForm = this.formBuilder.group({
       checkInDate: ['', Validators.required],
       parkingSlotType: ['', Validators.required],
       vehicleNumber: ['', Validators.required],
       floor: ['', Validators.required],
     });
+
+    if (this.totalRemainingSlots === 0) {
+      this.registrationForm.disable();
+    }
   }
 
   OnSubmit() {
@@ -49,7 +54,13 @@ export class ParkingRegistrationComponent implements OnInit {
         console.log(JSON.stringify(this.parkingDetails));
         this.parkingRegistrationService.setRegistrations(this.parkingDetails);
         this.registrationForm.reset();
-        this.calculateRemainingParkingCapacity();
+        this.parkingCapacityService.updateRemainingParkingCapacity();
+        this.floors = this.parkingCapacityService.getFloorParkingCapacity();
+        this.totalRemainingSlots =
+          this.parkingCapacityService.getRemainingParkingSlotsAvailable();
+        if (this.totalRemainingSlots === 0) {
+          this.registrationForm.disable();
+        }
         alert('New parking has been created');
       } else {
         alert(
@@ -65,21 +76,6 @@ export class ParkingRegistrationComponent implements OnInit {
         (slot) => slot.slotId === this.registrationForm.value.parkingSlotType
       );
       return parkingSlotOnFloor && parkingSlotOnFloor.remaining > 0;
-    });
-  }
-
-  calculateRemainingParkingCapacity() {
-    this.floors.forEach((floor) => {
-      const floorVehicles = this.parkingDetails.filter(
-        (node) => node.floor === floor.id
-      );
-      floor.parkingSlots.forEach((slot) => {
-        const slotVehiclesCount = floorVehicles.filter(
-          (node) => node.parkingSlotType === slot.slotId
-        ).length;
-        slot.used = slotVehiclesCount;
-        slot.remaining = slot.count - slot.used;
-      });
     });
   }
 }

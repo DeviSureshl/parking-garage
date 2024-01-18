@@ -1,3 +1,6 @@
+<div class="alert alert-warning" role="alert" *ngIf="totalRemainingSlots === 0">
+  Sorry, All parking slots are full. Currently no parking slots are available!!.
+</div>
 <form [formGroup]="registrationForm" (submit)="OnSubmit()">
   <div class="mb-3 row">
     <label for="staticEmail" class="col-md-4 col-lg-2 col-form-label"
@@ -12,7 +15,11 @@
       >Vehicle type:</label
     >
     <div class="col-md-8 col-lg-10">
-      <select formControlName="parkingSlotType" class="form-select" (change)="onParkingSlotSelected()">
+      <select
+        formControlName="parkingSlotType"
+        class="form-select"
+        (change)="onParkingSlotSelected()"
+      >
         <option *ngFor="let type of parkingSlotTypes" [ngValue]="type.id">
           {{ type.name }}
         </option>
