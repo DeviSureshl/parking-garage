@@ -1,1 +1,92 @@
-<p>parking-checkout works!</p>
+<form
+  class="row g-3"
+  [formGroup]="registrationNumberForm"
+  (submit)="findVehicle()"
+>
+  <label for="vehicleNumber" class="col-sm-4 col-form-label"
+    >Vehicle Registration Number</label
+  >
+  <div class="col-sm-5">
+    <input
+      type="text"
+      class="form-control"
+      id="vehicleNumber"
+      formControlName="vehicleNumber"
+    />
+  </div>
+  <div class="col-sm-3">
+    <button
+      type="submit"
+      [disabled]="registrationNumberForm.invalid"
+      class="btn btn-primary mb-3"
+    >
+      Find Vehicle
+    </button>
+  </div>
+</form>
+<form
+  [formGroup]="checkoutDateForm"
+  (submit)="calculatePrice()"
+  *ngIf="userVehicleDetails"
+>
+  <div class="row g-3">
+    <label for="checkinDate" class="col-sm-4 col-form-label"
+      >You checked in on</label
+    >
+    <div class="col-sm-5">
+      <p>{{ userVehicleDetails.checkInDate | date : "dd-MM-yyyy HH:MM" }}</p>
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+  <div class="row g-3">
+    <label for="registrationNumber" class="col-sm-4 col-form-label"
+      >Check-Out Date</label
+    >
+    <div class="col-sm-5">
+      <input
+        type="datetime-local"
+        class="form-control"
+        formControlName="checkoutDate"
+        [min]="regisrationDate"
+      />
+    </div>
+    <div class="col-sm-3">
+      <button type="submit" class="btn btn-primary mb-3">
+        Calculate Price
+      </button>
+    </div>
+  </div>
+  <div *ngIf="userBillAmount" class="mt-3">
+    <h3>Payment Details</h3>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>Registration Number</td>
+          <td>{{ userVehicleDetails.vehicleNumber }}</td>
+        </tr>
+        <tr>
+          <td>Checkin Date</td>
+          <td>{{ userVehicleDetails.checkInDate }}</td>
+        </tr>
+        <tr>
+          <td>Checkout Date</td>
+          <td>{{ checkoutDateForm.value.checkoutDate }}</td>
+        </tr>
+        <tr>
+          <td>Total hours</td>
+          <td>{{ userParkingHours }} Hours</td>
+        </tr>
+        <tr>
+          <td>Total Price</td>
+          <td>{{ userBillAmount }} Noks</td>
+        </tr>
+        <tr>
+          <td>Checkout</td>
+          <td>
+            <button class="btn btn-primary" (click)="checkoutUser()">Checkout</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>

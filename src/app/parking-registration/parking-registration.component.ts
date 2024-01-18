@@ -25,12 +25,12 @@ export class ParkingRegistrationComponent implements OnInit {
   availableFloors: IFloorCapacity[] = [];
 
   constructor(
-    private FormBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private parkingRegistrationService: ParkingRegistrationService
   ) {
     this.parkingDetails = this.parkingRegistrationService.getRegistrations();
     this.calculateRemainingParkingCapacity();
-    this.registrationForm = this.FormBuilder.group({
+    this.registrationForm = this.formBuilder.group({
       checkInDate: ['', Validators.required],
       parkingSlotType: ['', Validators.required],
       vehicleNumber: ['', Validators.required],
@@ -40,23 +40,32 @@ export class ParkingRegistrationComponent implements OnInit {
 
   OnSubmit() {
     if (this.registrationForm.valid) {
-      this.parkingDetails.push(this.registrationForm.value);
-      console.log(JSON.stringify(this.parkingDetails));
-      this.parkingRegistrationService.setRegistrations(this.parkingDetails);
-      this.registrationForm.reset();
-      alert('New parking has been created');
+      const doesRegistrationNumberExists = this.parkingDetails.find(
+        (node) =>
+          node.vehicleNumber === this.registrationForm.value.vehicleNumber
+      );
+      if (!doesRegistrationNumberExists) {
+        this.parkingDetails.push(this.registrationForm.value);
+        console.log(JSON.stringify(this.parkingDetails));
+        this.parkingRegistrationService.setRegistrations(this.parkingDetails);
+        this.registrationForm.reset();
+        this.calculateRemainingParkingCapacity();
+        alert('New parking has been created');
+      } else {
+        alert(
+          'Invalid registration number, the vehicle already has been registered'
+        );
+      }
     }
   }
 
   onParkingSlotSelected() {
-    this.availableFloors = this.floors.filter(
-      (floor) => {
-        const parkingSlotOnFloor = floor.parkingSlots.find(
-          (slot) => slot.slotId === this.registrationForm.value.parkingSlotType
-        );
-        return parkingSlotOnFloor && parkingSlotOnFloor.remaining > 0
-      }
-    );
+    this.availableFloors = this.floors.filter((floor) => {
+      const parkingSlotOnFloor = floor.parkingSlots.find(
+        (slot) => slot.slotId === this.registrationForm.value.parkingSlotType
+      );
+      return parkingSlotOnFloor && parkingSlotOnFloor.remaining > 0;
+    });
   }
 
   calculateRemainingParkingCapacity() {
