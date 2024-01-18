@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ParkingRegistrationService } from '../services/parking-registration/parking-registration.service';
 import { IRegistration } from '../services/interface';
 import { TransactionsService } from '../services/transactions/transactions.service';
+import { ParkingCapacityService } from '../services/parking-capacity/parking-capacity.service';
 
 @Component({
   selector: 'app-parking-checkout',
@@ -25,6 +26,7 @@ export class ParkingCheckoutComponent {
     private formBuilder: FormBuilder,
     private parkingRegistrationService: ParkingRegistrationService,
     private transactionsService: TransactionsService,
+    private parkingCapacityService: ParkingCapacityService,
   ) {
     this.registrationNumberForm = this.formBuilder.group({
       vehicleNumber: ['', Validators.required],
@@ -104,6 +106,7 @@ export class ParkingCheckoutComponent {
       alert('You have successfully checked out');
       this.registrationNumberForm.reset();
       this.checkoutDateForm.reset();
+      this.parkingCapacityService.updateRemainingParkingCapacity();
       this.userVehicleDetails = undefined;
       this.userBillAmount = 0;
       this.userParkingHours = 0;
