@@ -4,21 +4,27 @@
 <form [formGroup]="registrationForm" (submit)="OnSubmit()">
   <h3 class="mb-3">Register Parking</h3>
   <div class="mb-3 row">
-    <label for="staticEmail" class="col-md-4 col-lg-2 col-form-label"
-      >Vehicle Number:</label
+    <label for="vehicleNumber" class="col-md-4 col-lg-3 col-form-label"
+      >Vehicle Registration Number:</label
     >
-    <div class="col-md-8 col-lg-10">
-      <input type="text" class="form-control" formControlName="vehicleNumber" />
+    <div class="col-md-8 col-lg-9">
+      <input
+        type="text"
+        id="vehicleNumber"
+        class="form-control"
+        formControlName="vehicleNumber"
+      />
     </div>
   </div>
   <div class="mb-3 row">
-    <label for="staticEmail" class="col-md-4 col-lg-2 col-form-label"
-      >Vehicle type:</label
+    <label for="parkingSlotType" class="col-md-4 col-lg-3 col-form-label"
+      >Parking Slot Type:</label
     >
-    <div class="col-md-8 col-lg-10">
+    <div class="col-md-8 col-lg-9">
       <select
         formControlName="parkingSlotType"
         class="form-select"
+        id="parkingSlotType"
         (change)="onParkingSlotSelected()"
       >
         <option *ngFor="let type of parkingSlotTypes" [ngValue]="type.id">
@@ -28,11 +34,9 @@
     </div>
   </div>
   <div class="mb-3 row">
-    <label for="staticEmail" class="col-md-4 col-lg-2 col-form-label"
-      >Floor:</label
-    >
-    <div class="col-md-8 col-lg-10">
-      <select formControlName="floor" class="form-select">
+    <label for="floor" class="col-md-4 col-lg-3 col-form-label">Floor:</label>
+    <div class="col-md-8 col-lg-9">
+      <select formControlName="floor" class="form-select" id="floor">
         <option *ngFor="let floor of availableFloors" [ngValue]="floor.id">
           {{ floor.name }}
         </option>
@@ -40,11 +44,12 @@
     </div>
   </div>
   <div class="mb-3 row">
-    <label for="staticEmail" class="col-md-4 col-lg-2 col-form-label"
+    <label for="checkInDate" class="col-md-4 col-lg-3 col-form-label"
       >Check-In Date:</label
     >
-    <div class="col-md-8 col-lg-10">
+    <div class="col-md-8 col-lg-9">
       <input
+        id="checkInDate"
         type="datetime-local"
         class="form-control"
         formControlName="checkInDate"
