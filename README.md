@@ -21,3 +21,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Application Documentation
 
 Please refer to documentation.pdf in the root folder for the functionality description and screenshots.
+
+## Application Live View
+
+The application has been hosted in github pages. You can find the live view [here]( https://devisureshl.github.io/parking-garage/).
